@@ -1,0 +1,102 @@
+<div *ngIf="!noRecordsFound"><h5>No Books are Available for You to display right now please wait for few seconds while we can search If there are any books Available</h5></div>
+<div class="mat-elevation-z8" *ngIf="noRecordsFound">
+    <mat-table [dataSource]="listData" class="mat-elevation-z8">
+        <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef>Author</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.author}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="genre">
+            <mat-header-cell *matHeaderCellDef>Genre</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.genre}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ISBN">
+            <mat-header-cell *matHeaderCellDef>ISBN</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.ISBN}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="availability">
+            <mat-header-cell *matHeaderCellDef>Availability</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.availability}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="assign-to-self">
+            <mat-header-cell *matHeaderCellDef>Assign to self</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button class="btn btn-primary" (click)="fetchTotalNoofBooksAvailedNew(element)">Assign</button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
+
+<table class="table table-bordered" *ngIf="displayTable" style="margin-top: 60px">
+    <thead>
+        <tr>
+            <th scope="col">Author</th>
+            <th scope="col">Title</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Issued Date</th>
+            <th scope="col">Location</th>
+            <th scope="col">Renew</th>
+            <th scope="col">Return</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let userBookData of assignedListOfUserBooks">
+            <td>{{userBookData.author}}</td>
+            <td>{{userBookData.title}}</td>
+            <td>{{userBookData.userISBN}}</td>
+            <td>{{userBookData.issuedDate}}</td>
+            <td>{{userBookData.location}}</td>
+            <td *ngIf="userBookData.noOfDaysElapsed < 30">
+                <button class="btn btn-primary" [disabled]="true">Book can be renewed on : {{userBookData.renewDate | date}}</button>
+            </td>
+            <td *ngIf="userBookData.noOfDaysElapsed >= 30">
+                <button class="btn btn-primary" [disabled]="false" (click)="renewBook(userBookData)">Renew</button>
+            </td>
+            <td>
+                <button class="btn btn-primary" (click)="returnBook(userBookData)">Return</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="displayReview">
+    <h4>Review and Rate the Book</h4>
+    <form [formGroup]="reviewBookForm" (ngSubmit)="reviewForm();">
+        <label><h5>Book Returned Is :</h5></label>{{bookToBeReturned}} <br>
+        <label>Rate :</label><star-rating [starType]="'svg'" [rating]="2.63" (ratingChange)="onRatingChange($event)"></star-rating>
+        <mat-form-field>
+            <mat-label>Review</mat-label>
+            <textarea matInput placeholder="Good" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10" [formControlName]="'comments'" ></textarea>
+        </mat-form-field>
+        <br>
+        <button class="btn btn-success margin-right" type="button" (click)="likeButtonClick()">Like</button>
+        <button class="btn btn-danger" type="button" (click)="disLikeButtonClick()">Dislike</button>
+        <br>
+        <h5>Books returned to location : {{returnedFromLocation}}</h5>
+        <div formArrayName="friends">
+            <div>Recommend Books to friends</div>
+            <button class="btn btn-primary" type="button" (click)="onAddFriends()">Add Friends</button>
+            <br>
+            <div class="form-group" *ngFor="let friend of reviewBookForm.get('friends').controls; let i = index">
+                <div class="row">
+                    <div class="col-lg-9 col-xs-9">
+                        <input type="text" class="form-control" [formControlName]="i">
+                    </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="form-control" class="btn btn-danger" (click)="deleteFriend(i)">X</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary margin-top" type="submit">Submit</button>
+    </form>
+</div>

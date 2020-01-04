@@ -1,0 +1,51 @@
+<div class="search-div">
+    <mat-form-field class="search-form-field">
+        <input matInput [(ngModel)]="searchKey" placeholder="search by author/title" id="searchByAuthorTitle" autocomplete="off" (keyup)="applyFilter()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" id="clearSearch" *ngIf="searchKey" (click)="onSearchClear()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+<div *ngIf="!showResults"><h4>No results found</h4></div>
+<div class="mat-elevation-z8" *ngIf="showResults">
+    <mat-table [dataSource]="listData" class="mat-elevation-z8">
+        <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef>Author</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.author}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="genre">
+            <mat-header-cell *matHeaderCellDef>Genre</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.genre}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ISBN">
+            <mat-header-cell *matHeaderCellDef>ISBN</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.ISBN}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="availability">
+            <mat-header-cell *matHeaderCellDef>Availability</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.availability}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="file">
+            <mat-header-cell *matHeaderCellDef>Thumbnail</mat-header-cell>
+            <mat-cell *matCellDef="let element"><img [src]="element.file" height="70" width="70"></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="location">
+            <mat-header-cell *matHeaderCellDef>Location</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.location}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="noOfCopies">
+            <mat-header-cell *matHeaderCellDef>No Of Copies</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.noOfCopies}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>

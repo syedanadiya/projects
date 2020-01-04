@@ -1,0 +1,15 @@
+<h4>Profile Details</h4>
+<div class="container">
+  <div class="row">
+      <div *ngFor="let data of userProfileData">
+        <h4>Username : </h4>{{data.username}}
+        <h4>Email Address : </h4>{{data.email}} <br>
+        <h4>Profile pic : <img [src]="data.profilePic" height="70" width="70"></h4>
+        <h4>List of friends : </h4>{{data.friends}}<br>
+        <h4>List of socialIds : </h4>{{data.socialIds}}<br>
+      </div>
+      <div *ngIf="loggedInByGoogle">
+        {{this.userData}}
+      </div>
+  </div>
+ </div>

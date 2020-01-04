@@ -1,0 +1,40 @@
+<h3>Get books based on selected favourite genres</h3>
+
+<div *ngFor="let genre of genres; let i=index;">
+    <mat-checkbox (change)="getSelectedGenre(genre,$event)">{{genre}}</mat-checkbox>
+</div>
+
+<div *ngIf="displayListOfBooks">
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered" *ngIf="!showListOfFavoriteGenres">
+                <thead>
+                    <tr>
+                        <th scope="col">Author</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Thumbnail</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Availability</th>
+                        <th scope="col">No Of Copies</th>
+                        <th scope="col">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let bookDetails of listofBooksBasedOnGenre">
+                        <td>{{bookDetails.author}}</td>
+                        <td>{{bookDetails.title}}</td>
+                        <td>{{bookDetails.genre}}</td>
+                        <td><img [src]="bookDetails.file" height="70" width="70"></td>
+                        <td>{{bookDetails.ISBN}}</td>
+                        <td>{{bookDetails.description}}</td>
+                        <td>{{bookDetails.availability}}</td>
+                        <td>{{bookDetails.noOfCopies}}</td>
+                        <td>{{bookDetails.location}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

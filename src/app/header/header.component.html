@@ -1,0 +1,24 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Anytime Library</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li *ngIf="showOnlyAdmin" role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><a routerLink="admin-role">Admin Role</a></li>
+                <li *ngIf="showOnlyUser" role="presentation" routerLinkActive="active"><a [routerLink]="['user-role']">User Role</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink="/sign-up">Register</a></li>
+                <li *ngIf="getUID == null"><a routerLink="/sign-in">SignIn</a></li>
+                <li *ngIf="getUID !== null"><a routerLink="/sign-in" (click)="auth.logout()">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

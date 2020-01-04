@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Author</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Availability</th>
+                    <th scope="col">noOfCopies</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bookData of fetchedData">
+                    <td>{{bookData.author}}</td>
+                    <td>{{bookData.title}}</td>
+                    <td>{{bookData.genre}}</td>
+                    <td><img [src]="bookData.file" height="70" width="70"></td>
+                    <td>{{bookData.ISBN}}</td>
+                    <td>{{bookData.description}}</td>
+                    <td>{{bookData.availability}}</td>
+                    <td>{{bookData.noOfCopies}}</td>
+                    <td>{{bookData.location}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="populateData(bookData)">Edit</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" (click)="deleteRecord(bookData.$key)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Reactive Form -->
+<div class="container" *ngIf="displayForm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-8">
+            <form [formGroup]="signupForm" (ngSubmit)="editForm();">
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" class="form-control" formControlName="author">
+                    <div *ngIf="submitted && signupForm.get('author').errors">
+                        <span *ngIf="signupForm.get('author').errors.required" class="help-block">Please enter the author</span>
+                        <span *ngIf="signupForm.get('author').errors?.pattern" class="help-block">Please enter alphabets only</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control" formControlName="title">
+                    <div *ngIf="submitted && signupForm.get('title').errors">
+                        <span *ngIf="signupForm.get('title').errors.required" class="help-block">Please enter the title</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" id="genre" class="form-control" formControlName="genre">
+                    <div *ngIf="submitted && signupForm.get('genre').errors">
+                        <span *ngIf="signupForm.get('genre').errors.required" class="help-block">Please enter the genre</span>
+                    </div>
+                </div>
+                <div>
+                    <img [src]="imageUrl" height="70" width="70" (click)="editThumbnail()">
+                    <div *ngIf="!showUploadThumbnail">
+                        <input #file type="file" name="file" accept='image/*' formControlName="file" (change)="preview(file.files)" />
+                    </div>
+                    <div *ngIf="submitted && imageSelected === false">
+                        <span class="help-block">Please select the Image</span>
+                </div>
+                <div *ngIf="imageUrl !== ''">
+                    <span class="help-block" *ngIf="message">{{message}}</span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" class="form-control" formControlName="isbn" (change)="validateISBN()">
+            <div *ngIf="submitted && signupForm.get('isbn').errors">
+                <span *ngIf="signupForm.get('isbn').errors.required" class="help-block">Please enter the isbn</span>
+                <span *ngIf="signupForm.get('isbn').errors?.pattern" class="help-block">Please enter Numbers only</span>
+            </div>
+            <span *ngIf="!showError" class="help-block">ISBN already exists</span>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" class="form-control" formControlName="description">
+            <div *ngIf="submitted && signupForm.get('description').errors">
+                <span *ngIf="signupForm.get('description').errors.required" class="help-block">Please enter the description</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="availability">Availability</label>
+            <select id="availability" class="form-control" name="availability" formControlName="availability">
+                <option value="yes">yes</option>
+                <option value="no">No</option>
+            </select>
+            <span *ngIf="submitted && signupForm.get('availability').valid === 'Please Select'" class="help-block">Please select the availability</span>
+        </div>
+        <div class="form-group">
+            <label for="noOfCopies">No of Copies</label>
+            <input type="text" id="noOfCopies" class="form-control" formControlName="noOfCopies">
+            <div *ngIf="submitted && signupForm.get('noOfCopies').errors">
+                <span *ngIf="signupForm.get('noOfCopies').errors.required" class="help-block">Please enter the noOfCopies</span>
+                <span *ngIf="signupForm.get('noOfCopies').errors?.pattern" class="help-block">Please enter Numbers only</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" class="form-control" formControlName="location" pattern="([A-z0-9À-ž\s ~@#$^*()_+=[\]{}|\\,.?: -]){2,}">
+            <div *ngIf="submitted && signupForm.get('location').errors">
+                <span *ngIf="signupForm.get('location').errors.required" class="help-block">Please enter the location</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Edit Book</button>
+        </div>
+        </form>
+    </div>
+</div>
+</div>

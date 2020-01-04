@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-xs-12">
+            <form [formGroup]="addBookForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label>Author</label>
+                    <input type="text" formControlName="author" class="form-control" />
+                    <div *ngIf="submitted && f.author.errors">
+                        <span *ngIf="f.author.errors.required" class="help-block">Please enter the author</span>
+                        <span *ngIf="f.author.errors?.pattern" class="help-block">Please enter alphabets only</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" formControlName="title" class="form-control" />
+                    <div *ngIf="submitted && f.title.errors">
+                        <span *ngIf="f.title.errors.required" class="help-block">Please enter the title</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Genre</label>
+                    <input type="text" formControlName="genre" class="form-control" />
+                    <div *ngIf="submitted && f.genre.errors">
+                        <span *ngIf="f.genre.errors.required" class="help-block">Please enter the genre</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Thumbnail</label>
+                    <input #file type="file" name="file" accept='image/*' formControlName="file" (change)="preview(file.files)" />
+                    <img [src]="imageUrl" height="70" width="70" *ngIf="imageUrl">
+                    <span class="help-block" *ngIf="message">{{message}}</span>
+                    <div *ngIf="submitted && f.file.errors">
+                        <span *ngIf="f.file.errors.required" class="help-block">Please select the Image</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>ISBN</label>
+                    <input type="text" formControlName="isbn" class="form-control" (change)="validateISBN()" />
+                    <div *ngIf="submitted && f.isbn.errors">
+                        <span *ngIf="f.isbn.errors.required" class="help-block">Please enter the isbn</span>
+                        <span *ngIf="f.isbn.errors?.pattern" class="help-block">Please enter digits only</span>
+                    </div>
+                    <span *ngIf="!showError" class="help-block">ISBN already exists</span>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" formControlName="description" class="form-control" />
+                    <div *ngIf="submitted && f.description.errors">
+                        <span *ngIf="f.description.errors.required" class="help-block">Please enter the description</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Availability</label>
+                    <select id="availability" class="form-control" name="availability" formControlName="availability">
+                        <option value="Please Select">Please Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                    <span *ngIf="submitted && f.availability.value === 'Please Select'" class="help-block">Please select the availability</span>
+                </div>
+                <div class="form-group">
+                    <label>No of Copies</label>
+                    <input type="text" formControlName="noOfCopies" class="form-control" />
+                    <div *ngIf="submitted && f.noOfCopies.errors">
+                        <span *ngIf="f.noOfCopies.errors.required" class="help-block">Please enter the noOfCopies</span>
+                        <span *ngIf="f.noOfCopies.errors?.pattern" class="help-block">Please enter Numbers only</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" formControlName="location" class="form-control" />
+                    <div *ngIf="submitted && f.location.errors">
+                        <span *ngIf="f.location.errors.required" class="help-block">Please enter the location</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary">Add Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

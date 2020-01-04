@@ -1,0 +1,39 @@
+
+<div class="container">
+  <div class="row" *ngIf="displayResults">
+    <h4>List of ISBNs</h4>
+    <li role="presentation" *ngFor="let bookData of fetchedData"><a (click)="getBookDetailsByISBN(bookData.ISBN)">{{bookData.ISBN}}</a></li>
+  </div>
+  <div class="row" *ngIf="noRecordFound"><h4>No ISBNs found</h4></div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered" *ngIf="displayBookList">
+        <thead>
+            <tr>
+                <th scope="col">Author</th>
+                <th scope="col">Title</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Thumbnail</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Description</th>
+                <th scope="col">Availability</th>
+                <th scope="col">No Of Copies</th>
+                <th scope="col">Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let bookData of bookDetailsByISBN">
+                <td>{{bookData.author}}</td>
+                <td>{{bookData.title}}</td>
+                <td>{{bookData.genre}}</td>
+                <td><img [src]="bookData.file" height="70" width="70"></td>
+                <td>{{bookData.ISBN}}</td>
+                <td>{{bookData.description}}</td>
+                <td>{{bookData.availability}}</td>
+                <td>{{bookData.noOfCopies}}</td>
+                <td>{{bookData.location}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

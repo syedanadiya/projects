@@ -1,0 +1,35 @@
+<div class="search-div">
+    <mat-form-field class="search-form-field">
+        <input matInput [(ngModel)]="searchKey" id="searchContent" placeholder="Filter" autocomplete="off" (keyup)="applyFilter()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" id="clearContent" *ngIf="searchKey" (click)="onSearchClear()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
+<div *ngIf="showErrorMsgForList">No Records Found!</div>
+<div class="mat-elevation-z8" *ngIf="showFilteredList">
+    <mat-table [dataSource]="listData" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="author">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Author</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.author}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="user-id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>User Id</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.userId}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="issued-date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Issued Date</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.issuedDate}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>
